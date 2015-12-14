@@ -42,6 +42,13 @@ class ListSpec extends FlatSpec {
     val dropped = List.drop(lst, 2)
     assert(dropped != lst)
     assert(List.count(dropped) == 1)
+    assert(List.count(lst) == 3)
+  }
+
+  it should "should drop prefix element when predicate matches" in {
+    val lst = List[Int](1, 2, 3)
+    val n = List.dropWhile(lst, (v: Int) => (v == 1))
+    assert(List.count(n) == 2)
   }
 
 }
