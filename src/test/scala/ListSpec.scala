@@ -51,4 +51,9 @@ class ListSpec extends FlatSpec {
     assert(List.count(n) == 2)
   }
 
+  it should "drop the last element from List" in {
+    val lst = List.init(List(1, 2, 3, 4))
+    assert(List.count(lst) == 3)
+  }
+
 }

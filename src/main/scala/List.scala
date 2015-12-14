@@ -14,6 +14,7 @@ case class Cons[+A](head: A, tail: List[A]) extends List[A] {
 
 object List {
 
+
   def apply[A](as: A*): List[A] = {
     if (as.isEmpty) return Nil
     else Cons(as.head, apply(as.tail: _*))
@@ -63,7 +64,17 @@ object List {
 
   def dropWhile[A](l: List[A], f: A => Boolean): List[A] =
     l match {
-      case Cons(h,t) if f(h) => dropWhile(t, f)
+      case Cons(h, t) if f(h) => dropWhile(t, f)
       case _ => l
     }
+
+  def init[A](lst: List[A]): List[A] = {
+    if (List.tail(lst) == Nil || lst == Nil) {
+      return Nil
+    }
+    lst match {
+      case Cons(h, t) => Cons(h, init(t))
+    }
+  }
+
 }
