@@ -87,13 +87,59 @@ class ListSpec extends FlatSpec {
 
   }
 
-  it should "should append to list" in {
+  it should "append to list" in {
     val lst1 = List(1, 2, 3, 4)
     val lst2 = List(5, 6, 7)
     val lst = List.append(lst1, lst2)
     println("appended " + lst)
     assert(List.length3(lst) == 7)
+  }
 
+  //  it should "append to list via foldLeft" in {
+  //    val lst1 = List(1, 2, 3, 4)
+  //    val lst2 = List(5, 6, 7)
+  //    val lst = List.appendViaFoldLeft(lst1, lst2)
+  //    println("appended via fold left" + lst)
+  //    assert(List.length3(lst) == 7)
+  //
+  //  }
+
+  it should "add 1 to the value" in {
+    val lst = List(1, 2, 3, 4)
+    println(List.add1(lst))
+  }
+
+  it should "convert to string" in {
+    val lst = List(1.0, 2.0, 3.0, 4.0)
+    println(List.convert(lst))
+  }
+
+  it should "map the list" in {
+    val lst = List[Double](1.0, 2.0, 3.0, 4.0)
+    val mapped = List.map(lst)((x) => x + 20.0)
+    println("original List" + lst)
+    println("mapped List" + mapped)
+  }
+
+  it should "filter odd numbers" in {
+    val lst = List[Double](1.0, 2.0, 3.0, 4.0)
+    val filtered = List.filter(lst)((x) => x % 2 == 0)
+    println("original " + lst)
+    println("filtered" + filtered)
+  }
+
+  it should "return flattened list" in {
+    val lst = List[Double](1, 2, 3, 4)
+    val flattened = List.flatMap(lst)((x) => List(x, x))
+    println("original " + lst)
+    println("flattened" + flattened)
+  }
+
+  it should "return filtered list" in {
+    val lst = List[Int](1, 2, 3, 4)
+    val filtered = List.filterViaFlatMap(lst)(n => n % 2 == 0)
+    println("original " + lst)
+    println("filtered via flat map" + filtered)
   }
 
 }

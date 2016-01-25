@@ -152,4 +152,57 @@ object List {
   def append[A](l: List[A], r: List[A]): List[A] = {
     foldRight(l, r)((head, tail) => Cons(head, tail))
   }
+
+  //I have thought about append via foldLeft but there doens't seem to be a very clean way of
+  //doing it like you would using foldRight, the reason being the evaluation of function takes place
+  //before next invocation which makes function argument tricky e.g. should it return a new constant with head and
+  //tail value? if we do then it ends up reversing left or right list depending on which one is passed first.
+  //so may be there's no clean way of achieving this but with some if else condition and some hack that checks
+  //if you have reached the end of list.
+
+  //  def appendViaFoldLeft[A](l: List[A], r: List[A]): List[A] = {
+  //    foldLeft(l, r)((tail, head) => Cons(head, tail))
+  //  }
+
+
+  def add1(lst: List[Int]): List[Int] = {
+    foldRight(lst, Nil: List[Int])((x, y) => Cons(x + 1, y))
+  }
+
+  def convert(lst: List[Double]): List[String] = {
+    foldRight(lst, Nil: List[String])((x, y) => Cons(x.toString, y))
+  }
+
+  def map[A, B](as: List[A])(f: A => B): List[B] = {
+    foldRight(as, Nil: List[B])((x, y) => Cons(f(x), y))
+  }
+
+  def filter[A](as: List[A])(p: A => Boolean): List[A] = {
+    foldRight(as, Nil: List[A])((x, y) => if (p(x)) Cons(x, y) else y)
+  }
+
+  def filterViaFlatMap[A](as: List[A])(p: A => Boolean): List[A] = {
+    flatMap(as)((a) => if (p(a)) List(a) else List())
+  }
+
+  //came up with this different implementation since i did not really implement concat earlier
+  //apparently it looks much compact with concat in place
+  def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] = {
+    foldRight(as, Nil: List[B])((x, y) => List.append(f(x), y))
+  }
+
+  def concat[A](l: List[List[A]]): List[A] = foldRight(l, Nil: List[A])(append)
+
+  def addTwoLists(as: List[Int], bs: List[Int]): List[Int] = (as, bs) match {
+    case Cons(_, Nil) => Nil
+    case Cons(Nil, _) =>
+    case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1 + h2, addTwoLists(t1, t2))
+  }
+
+  def zipWith[A, B, C](a: List[A], b: List[B])(z: (A, B) => C): List[C] = (a, b) match {
+    case Cons(_, Nil) => Nil
+    case Cons(Nil, _) =>
+    case (Cons(h1, t1), Cons(h2, t2)) => Cons(z(h1, h2), zipWith(t1, t2)(z))
+  }
+
 }
